@@ -19,6 +19,9 @@ export default class Fraud extends Snap {
   init() {
     this.loopTl = gsap.timeline({
       onComplete: () => {
+        this.circleChildren.forEach((element) => {
+          element.style.fill = '#EF3529'
+        })
         window.removeEventListener('wheel', (e) => {
           e.preventDefault()
         })

@@ -3,7 +3,6 @@ export default class Contact {
     this.triggers = options.elements
     this.lenis = options.lenis
 
-    console.log(this.triggers)
     this.init()
     this.addEventListeners()
   }
