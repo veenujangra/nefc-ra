@@ -34,6 +34,7 @@ export default class Mission extends Snap {
   }
 
   intro() {
+    this.media[0].appendChild(this.media[1])
     this.tl = gsap.timeline({
       delay: 0.33,
     })
@@ -53,10 +54,10 @@ export default class Mission extends Snap {
       {
         // display: 'block',
         y: '0%',
-        duration: 0.733,
+        duration: 0.433,
         autoAlpha: 0.2,
         onComplete: () => {
-          this.media1State = Flip.getState(this.media[1], { props: 'opacity, filter' })
+          this.media1State = Flip.getState(this.media[1], { props: 'opacity,filter' })
           // Flip.from(this.media0State, this.flipOptions)
           // Flip.from(this.media1State, this.flipOptions)
         },
@@ -64,8 +65,8 @@ export default class Mission extends Snap {
     )
     // Blur the media
     this.tl.to(this.media[1], {
-      filter: 'blur(3px)',
-      duration: 0.5,
+      filter: 'blur(6px)',
+      duration: 0.2,
     })
     // Paragraph 1 and 2
     this.tl.fromTo(
@@ -90,14 +91,23 @@ export default class Mission extends Snap {
         //   Flip.from(this.content0State, this.flipOptions)
         //   Flip.from(this.content1State, this.flipOptions)
         // },
-        onComplete: () => {},
+        onComplete: () => {
+          this.media[1].style.filter = 'blur(0px)'
+          this.media[1].style.opacity = 1
+          this.mediaWrapper.appendChild(this.media[1])
+
+          Flip.from(this.media1State, {
+            duration: 1,
+            absolute: true,
+          })
+        },
       },
-      '-=0.33'
+      '-=0'
     )
 
     // Media 2
     this.tl.fromTo(
-      [this.mediaWrapper],
+      this.media[2],
       {
         autoAlpha: 0,
         // height: '0%',
@@ -112,6 +122,7 @@ export default class Mission extends Snap {
         duration: 1.125,
         // height: '35rem',
         autoAlpha: 1,
+        onStart: () => {},
         // onComplete: () => {
         //   Flip.from(this.media2State, this.flipOptions)
         //   Flip.from(this.mediaWrapperState, this.flipOptions)
@@ -119,26 +130,25 @@ export default class Mission extends Snap {
       }
     )
     // Animate Globe into small globe
-    this.tl.to(
-      this.media[1],
-      {
-        duration: 0.5,
-        // filter: 'blur(0px)',
-        // ease: 'power3.out',
-        // autoAlpha: 1,
-        onComplete: () => {
-          this.media[1].style.filter = 'blur(0px)'
-          this.media[1].style.opacity = 1
-          this.mediaWrapper.appendChild(this.media[1])
-
-          Flip.from(this.media1State, {
-            duration: 1,
-            absolute: true,
-          })
-        },
-      },
-      '-=0.5'
-    )
+    // this.tl.to(
+    //   this.media[1],
+    //   {
+    //     duration: 0.5,
+    //     // filter: 'blur(0px)',
+    //     // ease: 'power3.out',
+    //     // autoAlpha: 1,
+    //     onComplete: () => {
+    //       // this.media[1].style.filter = 'blur(0px)'
+    //       // this.media[1].style.opacity = 1
+    //       // this.mediaWrapper.appendChild(this.media[1])
+    //       // Flip.from(this.media1State, {
+    //       //   duration: 0.733,
+    //       //   absolute: true,
+    //       // })
+    //     },
+    //   },
+    //   '-=1.25'
+    // )
 
     // Paragraph 3
     this.tl.fromTo(

@@ -19,9 +19,7 @@ export default class Fraud extends Snap {
   init() {
     this.loopTl = gsap.timeline({
       onComplete: () => {
-        this.circleChildren.forEach((element) => {
-          element.style.fill = '#EF3529'
-        })
+        this.loopEnd()
         window.removeEventListener('wheel', (e) => {
           e.preventDefault()
         })
@@ -29,6 +27,17 @@ export default class Fraud extends Snap {
         this.lenis.start()
       },
     })
+  }
+
+  loopEnd() {
+    if (this.loopComplete) {
+      this.incrementVar.style.color = '#EF3529'
+      // get previous sibling of this.incrementVar
+      this.incrementVar.previousElementSibling.style.color = '#EF3529'
+      this.circleChildren.forEach((element) => {
+        element.style.fill = '#EF3529'
+      })
+    }
   }
 
   intro() {
@@ -80,9 +89,20 @@ export default class Fraud extends Snap {
     })
   }
 
+  handleWheel(e) {
+    if (e.wheelDelta < 0) {
+      this.loopTl.progress(this.loopTl.progress() + 0.05)
+    }
+  }
+
   incrementLoop() {
-    if (this.loopComplete) return
+    if (this.loopComplete) {
+      return
+    }
     this.loopComplete = true
+
+    window.addEventListener('wheel', this.handleWheel.bind(this))
+
     this.circleChildren.forEach((element) => {
       this.loopTl.to(element, {
         fill: '#EF3529',
@@ -92,11 +112,6 @@ export default class Fraud extends Snap {
           this.incrementCounter(0)
           this.lenis.stop()
           this.scrolling.disable.bind(this)()
-          window.addEventListener('wheel', (e) => {
-            if (e.wheelDelta < 0) {
-              this.loopTl.progress(this.loopTl.progress() + 0.005)
-            }
-          })
         },
         onComplete: () => {
           element.style.fill = '#C3DAFF'
