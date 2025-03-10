@@ -24,6 +24,9 @@ class App {
       syncTouch: 0.075,
       autoResize: true,
     })
+    document.body.addEventListener('click', (e) => {
+      this.lenis.resize()
+    })
 
     // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
     this.lenis.on('scroll', ScrollTrigger.update)

@@ -80,7 +80,8 @@ export default class Leadership extends Snap {
     this.sliderDots = document.querySelectorAll('#sliderNav .w-slider-dot')
 
     // Set section top to top of window
-    this.section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    this.lenis.scrollTo(this.section)
+    // this.section.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
     this.section.setAttribute('data-lenis-prevent', 'true')
 
