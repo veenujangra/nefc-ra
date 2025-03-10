@@ -15,6 +15,7 @@ class App {
     this.elements = document.querySelectorAll(options.elements)
 
     this.init()
+    this.handleNav(document.querySelectorAll('.navlink_wrapper'))
   }
 
   init() {
@@ -50,6 +51,8 @@ class App {
       lenis: this.lenis,
     })
 
+    this.sections = []
+
     // Initialize each section
     this.elements.forEach((section, i) => {
       switch (i) {
@@ -58,32 +61,58 @@ class App {
             section: section,
             lenis: this.lenis,
           })
+          this.sections.push(this.hero)
           break
         case 1:
           this.challenge = new Challenge({
             section: section,
             lenis: this.lenis,
           })
+          this.sections.push(this.challenge)
           break
         case 2:
           this.fraud = new Fraud({
             section: section,
             lenis: this.lenis,
           })
+          this.sections.push(this.fraud)
           break
         case 3:
           this.mission = new Mission({
             section: section,
             lenis: this.lenis,
           })
+          this.sections.push(this.mission)
           break
         case 4:
           this.leadership = new Leadership({
             section: section,
             lenis: this.lenis,
           })
+          this.sections.push(this.leadership)
           break
       }
+    })
+  }
+
+  toggleBlocking() {
+    this.sections.forEach((section) => {
+      section.preventBlocking = !section.preventBlocking
+    })
+  }
+
+  handleNav(links) {
+    links.forEach((link) => {
+      const id = link.getAttribute('link')
+      link.addEventListener('click', (e) => {
+        this.toggleBlocking()
+        e.preventDefault()
+        this.lenis.scrollTo(document.querySelector(`#${id}`), {
+          onComplete: () => {
+            this.toggleBlocking()
+          },
+        })
+      })
     })
   }
 }

@@ -45,6 +45,9 @@ export default class Fraud extends Snap {
       delay: 0.2,
       onComplete: () => {
         this.incrementLoop()
+        if (this.isSectionBottomAligned(this.section) > window.innerHeight / 2) {
+          this.loopTl.progress(1)
+        }
       },
     })
 
@@ -110,8 +113,11 @@ export default class Fraud extends Snap {
         duration: 1,
         onStart: () => {
           this.incrementCounter(0)
-          this.lenis.stop()
-          this.scrolling.disable.bind(this)()
+          if (!this.preventBlocking) {
+            this.lenis.stop()
+            console.log('Lenis stopped')
+            this.scrolling.disable.bind(this)()
+          }
         },
         onComplete: () => {
           element.style.fill = '#C3DAFF'
@@ -120,5 +126,12 @@ export default class Fraud extends Snap {
     })
   }
 
-  seekAnimation() {}
+  isSectionBottomAligned(sectionSelector) {
+    let section = sectionSelector
+    if (!section) return false
+
+    let rect = section.getBoundingClientRect()
+    console.log(Math.abs(rect.bottom - window.innerHeight))
+    return Math.abs(rect.bottom - window.innerHeight)
+  }
 }

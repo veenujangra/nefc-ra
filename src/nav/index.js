@@ -1,9 +1,16 @@
+import Snap from '../Snap'
+
 export default class Nav {
   constructor(options) {
+    // super({
+    //   section: document.querySelector('.navbar'),
+    // })
+
     this.lenis = options.lenis
-    this.links = document.querySelectorAll('.navlink')
+    this.links = document.querySelectorAll('.navlink_wrapper')
+    // this.handleNav = super.handleNav(this.links)
     this.init()
-    this.addEventListeners()
+    // this.addEventListeners()
   }
 
   init() {
@@ -18,10 +25,14 @@ export default class Nav {
 
   addEventListeners() {
     this.links.forEach((link) => {
+      const id = link.getAttribute('link')
       link.addEventListener('click', (e) => {
         e.preventDefault()
-        // this.lenis.scrollTo(document.querySelector(link.getAttribute('href')))
+        this.lenis.scrollTo(document.querySelector(`#${link.getAttribute('link')}`))
       })
     })
   }
+
+  intro() {}
+  outro() {}
 }

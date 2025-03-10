@@ -31,7 +31,6 @@ export default class Leadership extends Snap {
         if (!this.modal.element.classList.contains('is--open')) {
           return
         }
-        console.log('close team')
         this.section.removeAttribute('data-lenis-prevent')
         setTimeout(() => {
           this.modal.team.style.display = 'none'
@@ -80,24 +79,26 @@ export default class Leadership extends Snap {
     this.sliderDots = document.querySelectorAll('#sliderNav .w-slider-dot')
 
     // Set section top to top of window
-    this.lenis.scrollTo(this.section)
+    this.lenis.scrollTo(this.section, {
+      onComplete: () => {
+        this.section.setAttribute('data-lenis-prevent', 'true')
+
+        // Blocking scroll on body
+        document.body.style.overflow = 'hidden'
+        this.section.style.setProperty('height', '100vh', 'important')
+        this.section.style.overflow = 'auto'
+
+        // Open modal
+        this.modal.team.style.display = 'block'
+        this.modal.element.classList.add('is--open')
+        // Shrink container sizes
+        this.modal.shrinkContainerSizes()
+        // Set active state
+        this.resetActiveState()
+        this.setActiveState(card, index)
+      },
+    })
     // this.section.scrollIntoView({ behavior: 'smooth', block: 'start' })
-
-    this.section.setAttribute('data-lenis-prevent', 'true')
-
-    // Blocking scroll on body
-    document.body.style.overflow = 'hidden'
-    this.section.style.setProperty('height', '100vh', 'important')
-    this.section.style.overflow = 'auto'
-
-    // Open modal
-    this.modal.team.style.display = 'block'
-    this.modal.element.classList.add('is--open')
-    // Shrink container sizes
-    this.modal.shrinkContainerSizes()
-    // Set active state
-    this.resetActiveState()
-    this.setActiveState(card, index)
   }
 
   setActiveState(card, index) {
