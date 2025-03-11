@@ -18,6 +18,8 @@ export default class Fraud extends Snap {
   }
 
   init() {
+    gsap.set(this.section, { autoAlpha: 0 })
+
     ScrollTrigger.create({
       trigger: this.section,
       start: 'top top',

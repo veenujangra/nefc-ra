@@ -21,8 +21,7 @@ class App {
   init() {
     this.lenis = new Lenis({
       lerp: 0.075,
-      smoothTouch: true,
-      syncTouch: 0.075,
+      syncTouch: 0.1,
       autoResize: true,
     })
     document.body.addEventListener('click', (e) => {
