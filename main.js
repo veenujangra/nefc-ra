@@ -16,14 +16,15 @@ class App {
 
     this.init()
     this.handleNav(document.querySelectorAll('.navlink_wrapper'))
+    this.setMobileScrollSpeed()
   }
 
   init() {
     this.lenis = new Lenis({
       lerp: 0.075,
-      syncTouch: 0.1,
       autoResize: true,
     })
+
     document.body.addEventListener('click', (e) => {
       this.lenis.resize()
     })
@@ -113,6 +114,12 @@ class App {
         })
       })
     })
+  }
+
+  setMobileScrollSpeed() {
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+      this.lenis.setScrollSpeed(0.3) // Adjust this value for a smoother mobile experience
+    }
   }
 }
 
