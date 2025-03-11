@@ -30,6 +30,7 @@ export default class Contact {
         // setTimeout(() => {
         //   this.modal.contact.style.display = 'none'
         // }, 800)
+        document.body.classList.remove('is--modal-open')
         this.lenis.start()
         this.modal.element.classList.remove('is--open')
         // document.body.style.overflow = 'auto'
@@ -41,6 +42,7 @@ export default class Contact {
   }
 
   handleClick() {
+    document.body.classList.add('is--modal-open')
     this.modal.contact.style.display = 'block'
     this.modal.team.style.display = 'none'
 

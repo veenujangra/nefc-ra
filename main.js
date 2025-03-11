@@ -95,22 +95,22 @@ class App {
     })
   }
 
-  toggleBlocking() {
-    this.sections.forEach((section) => {
-      section.preventBlocking = !section.preventBlocking
-    })
-  }
+  // toggleBlocking() {
+  //   this.sections.forEach((section) => {
+  //     section.preventBlocking = !section.preventBlocking
+  //   })
+  // }
 
   handleNav(links) {
     links.forEach((link) => {
       const id = link.getAttribute('link')
       link.addEventListener('click', (e) => {
-        this.toggleBlocking()
+        // this.toggleBlocking()
         e.preventDefault()
         this.lenis.scrollTo(document.querySelector(`#${id}`), {
-          onComplete: () => {
-            this.toggleBlocking()
-          },
+          // onComplete: () => {
+          //   this.toggleBlocking()
+          // },
         })
       })
     })
@@ -118,7 +118,7 @@ class App {
 
   setMobileScrollSpeed() {
     if (/Mobi|Android/i.test(navigator.userAgent)) {
-      this.lenis.setScrollSpeed(0.3) // Adjust this value for a smoother mobile experience
+      this.lenis.lerp = 0.1
     }
   }
 }
