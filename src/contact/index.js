@@ -45,6 +45,19 @@ export default class Contact {
 
   handleClick() {
     document.body.classList.add('is--modal-open')
+    // If mobile, dont scroll to top
+    if (window.innerWidth < 768) {
+      this.modal.contact.style.display = 'block'
+      this.modal.team.style.display = 'none'
+
+      this.modal.element.classList.add('is--open')
+      // Shrink container sizes
+      // this.modal.shrinkContainerSizes()
+      this.setActiveState(card, index)
+
+      return
+    }
+
     this.modal.contact.style.display = 'block'
     this.modal.team.style.display = 'none'
 
