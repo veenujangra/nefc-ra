@@ -62,7 +62,7 @@ export default class Hero extends Snap {
       {
         y: '0',
         filter: 'blur(0px)',
-        delay: 1,
+        delay: 0.6,
         autoAlpha: 1,
         duration: 1.7,
         ease: 'power3.out',

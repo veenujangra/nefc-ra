@@ -9,8 +9,8 @@ export default class Contact {
   init() {
     this.modal = {
       element: document.querySelector('.modal_wrapper'),
-      team: document.querySelector('.modal_team'),
-      contact: document.querySelector('.modal_contact'),
+      team: document.querySelector('.modal_team').closest('.modal_container'),
+      contact: document.querySelector('.modal_contact').closest('.modal_container'),
 
       containers: [...document.querySelectorAll('.container')],
       shrinkContainerSizes: () => {
@@ -31,6 +31,7 @@ export default class Contact {
         //   this.modal.contact.style.display = 'none'
         // }, 800)
         document.body.classList.remove('is--modal-open')
+
         this.lenis.start()
         this.modal.element.classList.remove('is--open')
         // document.body.style.overflow = 'auto'
@@ -38,6 +39,7 @@ export default class Contact {
       },
     }
     this.modal.modalCloseElement = this.modal.contact.querySelectorAll('.modal_close')
+    this.modalContainer = this.modal.contact.closest('.modal_container')
     this.modal.containers.shift()
   }
 

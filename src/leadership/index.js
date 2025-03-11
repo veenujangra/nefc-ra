@@ -14,8 +14,8 @@ export default class Leadership extends Snap {
 
     this.modal = {
       element: document.querySelector('.modal_wrapper'),
-      team: document.querySelector('.modal_team'),
-      contact: document.querySelector('.modal_contact'),
+      team: document.querySelector('.modal_team').closest('.modal_container'),
+      contact: document.querySelector('.modal_contact').closest('.modal_container'),
 
       containers: [...document.querySelectorAll('.container')],
       shrinkContainerSizes: () => {
