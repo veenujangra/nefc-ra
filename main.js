@@ -95,23 +95,29 @@ class App {
     })
   }
 
-  // toggleBlocking() {
-  //   this.sections.forEach((section) => {
-  //     section.preventBlocking = !section.preventBlocking
-  //   })
-  // }
+  toggleBlocking() {
+    this.sections.forEach((section) => {
+      section.preventBlocking = !section.preventBlocking
+    })
+  }
 
   handleNav(links) {
     links.forEach((link) => {
       const id = link.getAttribute('link')
       link.addEventListener('click', (e) => {
-        // this.toggleBlocking()
+        this.toggleBlocking()
         e.preventDefault()
-        this.lenis.scrollTo(document.querySelector(`#${id}`), {
-          // onComplete: () => {
-          //   this.toggleBlocking()
-          // },
-        })
+        setTimeout(this.toggleBlocking.bind(this), 1500)
+        // this.lenis.scrollTo(document.querySelector(`#${id}`), {
+        //   onStart: () => {
+        //     console.log('start')
+        //     this.toggleBlocking()
+        //   },
+        //   onComplete: () => {
+        //     console.log('complete')
+        //     this.toggleBlocking()
+        //   },
+        // })
       })
     })
   }

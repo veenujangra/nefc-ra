@@ -13,6 +13,8 @@ export default class Fraud extends Snap {
     this.content = [...this.section.querySelectorAll('[data-fraud-content]')]
     this.incrementVar = this.section.querySelector('[data-fraud-increment]')
 
+    this.preventBlocking = false
+
     this.loopComplete = false
     this.init()
   }
@@ -24,6 +26,7 @@ export default class Fraud extends Snap {
       trigger: this.section,
       start: 'top top',
       onEnter: () => {
+        if (this.preventBlocking) return
         window.addEventListener('wheel', this.handleWheel.bind(this))
         // wheel event for mobile?
         window.addEventListener('touchmove', this.handleWheel.bind(this))
@@ -137,7 +140,7 @@ export default class Fraud extends Snap {
 
     if (this.scrollDirection === 'up') {
       this.lenis.start()
-    } else if (this.scrollDirection === 'down' && ScrollTrigger.isInViewport(this.section, 0.9) && !this.loopComplete) {
+    } else if (this.scrollDirection === 'down' && ScrollTrigger.isInViewport(this.section, 0.9) && !this.loopComplete && !this.preventBlocking) {
       this.lenis.stop()
       this.loopTl.progress(this.loopTl.progress() + 0.03)
     } else if (this.loopComplete) {
@@ -171,7 +174,7 @@ export default class Fraud extends Snap {
       this.loopTl.to(element, {
         fill: '#EF3529',
         fillOpacity: 1,
-        duration: 0.4,
+        duration: 0.3,
         onStart: () => {
           this.incrementCounter(0)
           // if (!this.preventBlocking) {
