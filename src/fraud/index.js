@@ -24,9 +24,14 @@ export default class Fraud extends Snap {
       trigger: this.section,
       start: 'top top',
       onEnter: () => {
+        console.log('Fraud section entered')
+        window.addEventListener('wheel', this.handleWheel.bind(this))
         if (this.loopComplete) return
         this.lenis.stop()
       },
+      onEnterBack: () => {},
+      onLeave: () => {},
+      onLeaveBack: () => {},
     })
 
     this.loopTl = gsap.timeline({
@@ -36,14 +41,15 @@ export default class Fraud extends Snap {
       //   trigger: this.section,
       //   scrub: 0.5,
       // },
-      onComplete: () => {
-        this.loopEnd()
-        // window.removeEventListener('wheel', (e) => {
-        //   e.preventDefault()
-        // })
-        // this.scrolling.enable.bind(this)()
-        // this.lenis.start()
-      },
+      // onComplete: () => {
+      //   console.log('Loop complete', this.loopTl.progress())
+      //   this.loopEnd()
+      //   // window.removeEventListener('wheel', (e) => {
+      //   //   e.preventDefault()
+      //   // })
+      //   // this.scrolling.enable.bind(this)()
+      //   // this.lenis.start()
+      // },
     })
   }
 
@@ -117,31 +123,40 @@ export default class Fraud extends Snap {
   }
 
   handleWheel(e) {
-    if (this.loopTl.progress() === 1 || this.loopTl.progress() === 0) {
+    // Scroll direction
+    this.scrollDirection = e.wheelDelta < 0 ? 'down' : 'up'
+
+    if (this.scrollDirection === 'up') {
       this.lenis.start()
-    } else {
+    } else if (this.scrollDirection === 'down' && ScrollTrigger.isInViewport(this.section, 0.9) && !this.loopComplete) {
       this.lenis.stop()
-      if (e.wheelDelta < 0) {
-        this.loopTl.progress(this.loopTl.progress() + 0.03)
-      }
-      // else {
-      //   this.loopTl.progress(this.loopTl.progress() - 0.03)
-      // }
+      this.loopTl.progress(this.loopTl.progress() + 0.03)
+    } else if (this.loopComplete) {
+      this.lenis.start()
     }
+
+    // if (this.loopTl.progress() === 1 || this.loopTl.progress() === 0) {
+    //   this.lenis.start()
+    // } else {
+    //   this.lenis.stop()
+    //   if (e.wheelDelta < 0) {
+    //     this.loopTl.progress(this.loopTl.progress() + 0.03)
+    //   }
+    //   // else {
+    //   //   this.loopTl.progress(this.loopTl.progress() - 0.03)
+    //   // }
+    // }
   }
 
   incrementLoop() {
     if (this.loopComplete) {
       return
     }
-    this.loopComplete = true
 
     // On Lenis Scroll
     // this.lenis.on('scroll', () => {
     //   this.loopTl.progress(this.loopTl.progress() + 0.03)
     // })
-
-    window.addEventListener('wheel', this.handleWheel.bind(this))
 
     this.circleChildren.forEach((element) => {
       this.loopTl.to(element, {
@@ -159,6 +174,14 @@ export default class Fraud extends Snap {
         onComplete: () => {
           element.style.fill = '#C3DAFF'
         },
+      })
+    })
+
+    this.loopTl.eventCallback('onComplete', () => {
+      this.loopComplete = true
+      this.loopEnd()
+      window.removeEventListener('wheel', (e) => {
+        e.preventDefault()
       })
     })
   }
