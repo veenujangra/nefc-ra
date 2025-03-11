@@ -25,6 +25,8 @@ export default class Mission extends Snap {
   }
 
   init() {
+    gsap.set(this.section, { autoAlpha: 0 })
+
     // gsap.set(this.elements, { display: 'none' })
     // gsap.set(this.mediaWrapper, { height: '0%', autoAlpha: 0 })
   }
@@ -36,9 +38,13 @@ export default class Mission extends Snap {
   intro() {
     this.media[0].appendChild(this.media[1])
     this.tl = gsap.timeline({
-      delay: 0.33,
+      delay: 0.2,
     })
 
+    gsap.to(this.section, {
+      autoAlpha: 1,
+      duration: 0.5,
+    })
     this.tl.fromTo(
       [this.media[1]],
       {
@@ -61,7 +67,8 @@ export default class Mission extends Snap {
           // Flip.from(this.media0State, this.flipOptions)
           // Flip.from(this.media1State, this.flipOptions)
         },
-      }
+      },
+      '-=0.4'
     )
     // Blur the media
     this.tl.to(this.media[1], {

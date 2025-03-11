@@ -24,7 +24,6 @@ export default class Fraud extends Snap {
       trigger: this.section,
       start: 'top top',
       onEnter: () => {
-        console.log('Fraud section entered')
         window.addEventListener('wheel', this.handleWheel.bind(this))
         if (this.loopComplete) return
         this.lenis.stop()
