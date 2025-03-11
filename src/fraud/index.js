@@ -18,13 +18,14 @@ export default class Fraud extends Snap {
   }
 
   init() {
-    gsap.set(this.section, { autoAlpha: 0 })
-
     ScrollTrigger.create({
       trigger: this.section,
       start: 'top top',
       onEnter: () => {
         window.addEventListener('wheel', this.handleWheel.bind(this))
+        // wheel event for mobile?
+        window.addEventListener('touchmove', this.handleWheel.bind(this))
+
         if (this.loopComplete) return
         this.lenis.stop()
       },
@@ -122,8 +123,15 @@ export default class Fraud extends Snap {
   }
 
   handleWheel(e) {
-    // Scroll direction
-    this.scrollDirection = e.wheelDelta < 0 ? 'down' : 'up'
+    // Detect scroll direction with touch event
+    if (e.type === 'touchmove') {
+      e.preventDefault()
+      this.scrollDirection = e.touches[0].clientY < this.touchStart ? 'up' : 'down'
+      this.touchStart = e.touches[0].clientY
+    } else if (e.type === 'wheel') {
+      // Scroll direction
+      this.scrollDirection = e.wheelDelta < 0 ? 'down' : 'up'
+    }
 
     if (this.scrollDirection === 'up') {
       this.lenis.start()
