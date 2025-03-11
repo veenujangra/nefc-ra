@@ -65,6 +65,8 @@ export default class Fraud extends Snap {
       this.incrementVar.style.color = '#EF3529'
       // get previous sibling of this.incrementVar
       this.incrementVar.previousElementSibling.style.color = '#EF3529'
+      this.incrementVar.nextElementSibling.style.opacity = '1'
+
       this.circleChildren.forEach((element) => {
         element.style.fill = '#EF3529'
       })
