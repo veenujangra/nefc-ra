@@ -15,6 +15,7 @@ export default class Leadership extends Snap {
     this.modal = {
       element: document.querySelector('.modal_wrapper'),
       team: document.querySelector('.modal_team'),
+      contact: document.querySelector('.modal_contact'),
 
       containers: [...document.querySelectorAll('.container')],
       shrinkContainerSizes: () => {
@@ -32,9 +33,11 @@ export default class Leadership extends Snap {
           return
         }
         this.section.removeAttribute('data-lenis-prevent')
-        setTimeout(() => {
-          this.modal.team.style.display = 'none'
-        }, 800)
+
+        // setTimeout(() => {
+        //   this.modal.team.style.display = 'none'
+        // }, 800)
+
         this.modal.element.classList.remove('is--open')
         document.body.style.overflow = 'auto'
         this.section.style.removeProperty('height')
@@ -78,8 +81,23 @@ export default class Leadership extends Snap {
     // Change modal content
     this.sliderDots = document.querySelectorAll('#sliderNav .w-slider-dot')
 
+    // If mobile, dont scroll to top
+    if (window.innerWidth < 768) {
+      this.modal.team.style.display = 'block'
+      this.modal.contact.style.display = 'none'
+
+      this.modal.element.classList.add('is--open')
+      // Shrink container sizes
+      // this.modal.shrinkContainerSizes()
+      this.setActiveState(card, index)
+
+      return
+    }
+
     // Set section top to top of window
     this.lenis.scrollTo(this.section, {
+      duration: 0.3,
+      ease: 'power1.inOut',
       onComplete: () => {
         this.section.setAttribute('data-lenis-prevent', 'true')
 
@@ -90,12 +108,16 @@ export default class Leadership extends Snap {
 
         // Open modal
         this.modal.team.style.display = 'block'
+        this.modal.contact.style.display = 'none'
+
         this.modal.element.classList.add('is--open')
         // Shrink container sizes
         this.modal.shrinkContainerSizes()
         // Set active state
         this.resetActiveState()
         this.setActiveState(card, index)
+
+        this.lenis.resize()
       },
     })
     // this.section.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -125,7 +147,6 @@ export default class Leadership extends Snap {
   scrollOnModalOpen() {}
 
   intro() {
-    console.log()
     // this.lenis.stop()
   }
   outro() {}

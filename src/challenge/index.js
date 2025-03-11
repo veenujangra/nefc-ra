@@ -12,15 +12,22 @@ export default class Challenge extends Snap {
       left: this.section.querySelector('[data-challenge-content="left"]'),
     }
     this.sideContent = this.section.querySelector('[data-challenge-side-content]')
+
+    this.init()
   }
 
-  init() {}
+  init() {
+    gsap.set(this.section, { autoAlpha: 0 })
+  }
 
   intro() {
     this.tl = gsap.timeline({
       delay: 0.2,
     })
-
+    gsap.to(this.section, {
+      autoAlpha: 1,
+      duration: 0.5,
+    })
     this.tl
       .fromTo(
         this.circle,
@@ -33,7 +40,8 @@ export default class Challenge extends Snap {
           scale: 1,
           autoAlpha: 1,
           duration: 0.733,
-        }
+        },
+        '-=0.4'
       )
       .fromTo(
         this.content.right,

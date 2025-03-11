@@ -1,5 +1,6 @@
 import Snap from '../Snap'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/all'
 
 export default class Fraud extends Snap {
   constructor(options) {
@@ -17,20 +18,39 @@ export default class Fraud extends Snap {
   }
 
   init() {
+    gsap.set(this.section, { autoAlpha: 0 })
+
+    ScrollTrigger.create({
+      trigger: this.section,
+      start: 'top top',
+      onEnter: () => {
+        if (this.loopComplete) return
+        this.lenis.stop()
+      },
+    })
+
     this.loopTl = gsap.timeline({
+      // scrollTrigger: {
+      //   start: 'top center',
+      //   end: 'bottom top',
+      //   trigger: this.section,
+      //   scrub: 0.5,
+      // },
       onComplete: () => {
         this.loopEnd()
-        window.removeEventListener('wheel', (e) => {
-          e.preventDefault()
-        })
-        this.scrolling.enable.bind(this)()
-        this.lenis.start()
+        // window.removeEventListener('wheel', (e) => {
+        //   e.preventDefault()
+        // })
+        // this.scrolling.enable.bind(this)()
+        // this.lenis.start()
       },
     })
   }
 
   loopEnd() {
     if (this.loopComplete) {
+      // this.section.classList.add('loop--complete')
+
       this.incrementVar.style.color = '#EF3529'
       // get previous sibling of this.incrementVar
       this.incrementVar.previousElementSibling.style.color = '#EF3529'
@@ -45,12 +65,12 @@ export default class Fraud extends Snap {
       delay: 0.2,
       onComplete: () => {
         this.incrementLoop()
-        if (this.isSectionBottomAligned(this.section) > window.innerHeight / 2) {
-          this.loopTl.progress(1)
-        }
       },
     })
-
+    this.tl.to(this.section, {
+      autoAlpha: 1,
+      duration: 0.5,
+    })
     this.tl
       .fromTo(
         this.circle,
@@ -63,7 +83,8 @@ export default class Fraud extends Snap {
           scale: 1,
           autoAlpha: 1,
           duration: 0.733,
-        }
+        },
+        '-=0.4'
       )
       .fromTo(
         this.content,
@@ -82,19 +103,30 @@ export default class Fraud extends Snap {
   }
 
   incrementCounter(duration) {
-    const innerText = parseInt(this.incrementVar.innerText)
+    // remove commas from innerText
+    const innerText = parseInt(this.incrementVar.innerText.split(',').join('').split(' ').join('')) + 1950
+    const formatter = new Intl.NumberFormat('en-US')
+    const formattedInnerText = formatter.format(innerText)
     gsap.to(this.incrementVar, {
-      innerText: innerText + 1950,
+      innerText: formattedInnerText,
       duration: duration,
-      snap: {
-        innerText: 1,
-      },
+      // snap: {
+      //   innerText: 1,
+      // },
     })
   }
 
   handleWheel(e) {
-    if (e.wheelDelta < 0) {
-      this.loopTl.progress(this.loopTl.progress() + 0.05)
+    if (this.loopTl.progress() === 1 || this.loopTl.progress() === 0) {
+      this.lenis.start()
+    } else {
+      this.lenis.stop()
+      if (e.wheelDelta < 0) {
+        this.loopTl.progress(this.loopTl.progress() + 0.03)
+      }
+      // else {
+      //   this.loopTl.progress(this.loopTl.progress() - 0.03)
+      // }
     }
   }
 
@@ -104,20 +136,25 @@ export default class Fraud extends Snap {
     }
     this.loopComplete = true
 
+    // On Lenis Scroll
+    // this.lenis.on('scroll', () => {
+    //   this.loopTl.progress(this.loopTl.progress() + 0.03)
+    // })
+
     window.addEventListener('wheel', this.handleWheel.bind(this))
 
     this.circleChildren.forEach((element) => {
       this.loopTl.to(element, {
         fill: '#EF3529',
         fillOpacity: 1,
-        duration: 1,
+        duration: 0.4,
         onStart: () => {
           this.incrementCounter(0)
-          if (!this.preventBlocking) {
-            this.lenis.stop()
-            console.log('Lenis stopped')
-            this.scrolling.disable.bind(this)()
-          }
+          // if (!this.preventBlocking) {
+          //   this.lenis.stop()
+          //   console.log('Lenis stopped')
+          //   this.scrolling.disable.bind(this)()
+          // }
         },
         onComplete: () => {
           element.style.fill = '#C3DAFF'
@@ -126,12 +163,11 @@ export default class Fraud extends Snap {
     })
   }
 
-  isSectionBottomAligned(sectionSelector) {
+  isSectionAtTop(sectionSelector) {
     let section = sectionSelector
     if (!section) return false
 
     let rect = section.getBoundingClientRect()
-    console.log(Math.abs(rect.bottom - window.innerHeight))
-    return Math.abs(rect.bottom - window.innerHeight)
+    return Math.abs(rect.top) < 1 // Checks if top is at or very close to 0
   }
 }
