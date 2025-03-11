@@ -53,8 +53,6 @@ export default class Contact {
       this.modal.element.classList.add('is--open')
       // Shrink container sizes
       // this.modal.shrinkContainerSizes()
-      this.setActiveState(card, index)
-
       return
     }
 
