@@ -142,7 +142,7 @@ export default class Leadership extends Snap {
 
     this.modal.modalCloseElement.forEach((element) => {
       element.addEventListener('click', this.modal.modalClose)
-      element.addEventListener('touchstart', this.modal.modalClose)
+      // element.addEventListener('touchstart', this.modal.modalClose)
     })
   }
 
