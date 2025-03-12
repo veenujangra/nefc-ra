@@ -42,8 +42,8 @@ class App {
     // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin and adding direction classes to the body
     this.lenis.on('scroll', () => {
       ScrollTrigger.update()
-      document.body.classList.toggle('is--scrolling-up', this.lenis.direction === 'up')
-      document.body.classList.toggle('is--scrolling-down', this.lenis.direction === 'down')
+      document.body.classList.toggle('is--scrolling-up', this.lenis.direction === -1)
+      document.body.classList.toggle('is--scrolling-down', this.lenis.direction === 1)
     })
 
     // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
