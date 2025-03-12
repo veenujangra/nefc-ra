@@ -9,6 +9,7 @@ export default class Fraud extends Snap {
     this.section = options.section
     this.lenis = options.lenis
     this.circle = this.section.querySelector('[data-fraud-circle]')
+    this.duration = this.circle.getAttribute('data-fraud-duration') || 0.2
     this.circleChildren = this.circle.querySelectorAll('ellipse')
     this.content = [...this.section.querySelectorAll('[data-fraud-content]')]
     this.incrementVar = this.section.querySelector('[data-fraud-increment]')
@@ -176,7 +177,7 @@ export default class Fraud extends Snap {
       this.loopTl.to(element, {
         fill: '#EF3529',
         fillOpacity: 1,
-        duration: 0.3,
+        duration: this.duration,
         onStart: () => {
           this.incrementCounter(0)
           // if (!this.preventBlocking) {

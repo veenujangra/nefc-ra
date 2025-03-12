@@ -20,6 +20,16 @@ class App {
   }
 
   init() {
+    this.initLenis()
+
+    this.createNav()
+
+    this.createContact()
+
+    this.createSection()
+  }
+
+  initLenis() {
     this.lenis = new Lenis({
       lerp: 0.075,
       autoResize: true,
@@ -29,8 +39,12 @@ class App {
       this.lenis.resize()
     })
 
-    // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
-    this.lenis.on('scroll', ScrollTrigger.update)
+    // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin and adding direction classes to the body
+    this.lenis.on('scroll', () => {
+      ScrollTrigger.update()
+      document.body.classList.toggle('is--scrolling-up', this.lenis.direction === 'up')
+      document.body.classList.toggle('is--scrolling-down', this.lenis.direction === 'down')
+    })
 
     // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
     // This ensures Lenis's smooth scroll animation updates on each GSAP tick
@@ -40,17 +54,23 @@ class App {
 
     // Disable lag smoothing in GSAP to prevent any delay in scroll animations
     gsap.ticker.lagSmoothing(0)
+  }
 
+  createNav() {
     // Initialize the navigation
     this.nav = new Nav({
       lenis: this.lenis,
     })
+  }
 
+  createContact() {
     this.contact = new Contact({
       elements: document.querySelectorAll('[data-modal-open = "contact"]'),
       lenis: this.lenis,
     })
+  }
 
+  createSection() {
     this.sections = []
 
     // Initialize each section
