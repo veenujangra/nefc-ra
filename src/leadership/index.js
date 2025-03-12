@@ -137,7 +137,7 @@ export default class Leadership extends Snap {
   addEventListeners() {
     this.cards.forEach((card, index) => {
       card.addEventListener('click', this.handleClick.bind(this, card, index))
-      card.addEventListener('touchstart', this.handleClick.bind(this, card, index))
+      // card.addEventListener('touchstart', this.handleClick.bind(this, card, index))
     })
 
     this.modal.modalCloseElement.forEach((element) => {
