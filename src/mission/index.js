@@ -92,7 +92,7 @@ export default class Mission extends Snap {
         // display: 'block',
         y: '0%',
         // height: 'auto',
-        duration: 1.125,
+        duration: 0.5,
         autoAlpha: 1,
         // onComplete: () => {
         //   Flip.from(this.content0State, this.flipOptions)
@@ -134,7 +134,8 @@ export default class Mission extends Snap {
         //   Flip.from(this.media2State, this.flipOptions)
         //   Flip.from(this.mediaWrapperState, this.flipOptions)
         // },
-      }
+      },
+      '-=0.75'
     )
     // Animate Globe into small globe
     // this.tl.to(
@@ -186,6 +187,6 @@ export default class Mission extends Snap {
   }
 
   outro() {
-    // this.media[0].appendChild(this.media[1])
+    this.media[0].appendChild(this.media[1])
   }
 }

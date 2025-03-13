@@ -15,7 +15,10 @@ class App {
     this.elements = document.querySelectorAll(options.elements)
 
     this.init()
-    this.handleNav(document.querySelectorAll('.navlink_wrapper'))
+    /**
+     * Scroll based updated removed
+     */
+    // this.handleNav(document.querySelectorAll('.navlink_wrapper'))
     this.setMobileScrollSpeed()
   }
 
@@ -37,6 +40,9 @@ class App {
 
     document.body.addEventListener('click', (e) => {
       this.lenis.resize()
+      setTimeout(() => {
+        this.lenis.resize()
+      }, 200)
     })
 
     // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin and adding direction classes to the body
@@ -84,19 +90,20 @@ class App {
           this.sections.push(this.hero)
           break
         case 1:
-          this.challenge = new Challenge({
-            section: section,
-            lenis: this.lenis,
-          })
-          this.sections.push(this.challenge)
-          break
-        case 2:
           this.fraud = new Fraud({
             section: section,
             lenis: this.lenis,
           })
           this.sections.push(this.fraud)
           break
+        case 2:
+          this.challenge = new Challenge({
+            section: section,
+            lenis: this.lenis,
+          })
+          this.sections.push(this.challenge)
+          break
+
         case 3:
           this.mission = new Mission({
             section: section,
@@ -115,32 +122,35 @@ class App {
     })
   }
 
-  toggleBlocking() {
-    this.sections.forEach((section) => {
-      section.preventBlocking = !section.preventBlocking
-    })
-  }
+  /**
+   * Scroll based updated removed
+   */
+  // toggleBlocking() {
+  //   this.sections.forEach((section) => {
+  //     section.preventBlocking = !section.preventBlocking
+  //   })
+  // }
 
-  handleNav(links) {
-    links.forEach((link) => {
-      const id = link.getAttribute('link')
-      link.addEventListener('click', (e) => {
-        this.toggleBlocking()
-        e.preventDefault()
-        setTimeout(this.toggleBlocking.bind(this), 1500)
-        // this.lenis.scrollTo(document.querySelector(`#${id}`), {
-        //   onStart: () => {
-        //     console.log('start')
-        //     this.toggleBlocking()
-        //   },
-        //   onComplete: () => {
-        //     console.log('complete')
-        //     this.toggleBlocking()
-        //   },
-        // })
-      })
-    })
-  }
+  // handleNav(links) {
+  //   links.forEach((link) => {
+  //     const id = link.getAttribute('link')
+  //     link.addEventListener('click', (e) => {
+  //       this.toggleBlocking()
+  //       e.preventDefault()
+  //       setTimeout(this.toggleBlocking.bind(this), 1500)
+  //       // this.lenis.scrollTo(document.querySelector(`#${id}`), {
+  //       //   onStart: () => {
+  //       //     console.log('start')
+  //       //     this.toggleBlocking()
+  //       //   },
+  //       //   onComplete: () => {
+  //       //     console.log('complete')
+  //       //     this.toggleBlocking()
+  //       //   },
+  //       // })
+  //     })
+  //   })
+  // }
 
   setMobileScrollSpeed() {
     if (/Mobi|Android/i.test(navigator.userAgent)) {

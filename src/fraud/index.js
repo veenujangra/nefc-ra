@@ -9,7 +9,7 @@ export default class Fraud extends Snap {
     this.section = options.section
     this.lenis = options.lenis
     this.circle = this.section.querySelector('[data-fraud-circle]')
-    this.duration = this.circle.getAttribute('data-fraud-duration') || 0.2
+    this.duration = this.circle.getAttribute('data-fraud-duration') || 0.0122
     this.circleChildren = this.circle.querySelectorAll('ellipse')
     this.content = [...this.section.querySelectorAll('[data-fraud-content]')]
     this.incrementVar = this.section.querySelector('[data-fraud-increment]')
@@ -23,24 +23,33 @@ export default class Fraud extends Snap {
   init() {
     gsap.set(this.section, { autoAlpha: 0 })
 
-    ScrollTrigger.create({
-      trigger: this.section,
-      start: 'top top',
-      onEnter: () => {
-        if (this.preventBlocking) return
-        window.addEventListener('wheel', this.handleWheel.bind(this))
-        // wheel event for mobile?
-        window.addEventListener('touchmove', this.handleWheel.bind(this))
+    /**
+     * Scroll based updated removed
+     */
 
-        if (this.loopComplete) return
-        this.lenis.stop()
-      },
-      onEnterBack: () => {},
-      onLeave: () => {},
-      onLeaveBack: () => {},
-    })
+    // ScrollTrigger.create({
+    //   trigger: this.section,
+    //   start: 'top top',
+    //   onEnter: () => {
+    //     if (this.preventBlocking) return
+    //     window.addEventListener('wheel', this.handleWheel.bind(this))
+    //     // wheel event for mobile?
+    //     window.addEventListener('touchmove', this.handleWheel.bind(this))
+
+    //     if (this.loopComplete) return
+    //     // this.lenis.stop()
+    //   },
+    //   onEnterBack: () => {},
+    //   onLeave: () => {},
+    //   onLeaveBack: () => {},
+    // })
 
     this.loopTl = gsap.timeline({
+      ease: 'power3.out',
+      /**
+       * Scroll based updated removed
+       */
+
       // scrollTrigger: {
       //   start: 'top center',
       //   end: 'bottom top',
@@ -66,7 +75,20 @@ export default class Fraud extends Snap {
       this.incrementVar.style.color = '#EF3529'
       // get previous sibling of this.incrementVar
       this.incrementVar.previousElementSibling.style.color = '#EF3529'
-      this.incrementVar.nextElementSibling.style.opacity = '1'
+      // this.incrementVar.nextElementSibling.style.opacity = '1'
+      gsap.fromTo(
+        this.incrementVar.nextElementSibling,
+        {
+          marginLeft: '-2rem',
+          autoAlpha: 0,
+          ease: 'power3.out',
+        },
+        {
+          marginLeft: '0',
+          autoAlpha: 1,
+          duration: 0.33,
+        }
+      )
 
       this.circleChildren.forEach((element) => {
         element.style.fill = '#EF3529'
@@ -76,14 +98,14 @@ export default class Fraud extends Snap {
 
   intro() {
     this.tl = gsap.timeline({
-      delay: 0.2,
+      // delay: 0.2,
       onComplete: () => {
         this.incrementLoop()
       },
     })
     this.tl.to(this.section, {
       autoAlpha: 1,
-      duration: 0.5,
+      duration: 0.2,
     })
     this.tl
       .fromTo(
@@ -142,12 +164,12 @@ export default class Fraud extends Snap {
     }
 
     if (this.scrollDirection === 'up') {
-      this.lenis.start()
+      // this.lenis.start()
     } else if (this.scrollDirection === 'down' && ScrollTrigger.isInViewport(this.section, 0.9) && !this.loopComplete && !this.preventBlocking) {
-      this.lenis.stop()
+      // this.lenis.stop()
       this.loopTl.progress(this.loopTl.progress() + 0.03)
     } else if (this.loopComplete) {
-      this.lenis.start()
+      // this.lenis.start()
     }
 
     // if (this.loopTl.progress() === 1 || this.loopTl.progress() === 0) {
@@ -168,6 +190,10 @@ export default class Fraud extends Snap {
       return
     }
 
+    /**
+     * Scroll based updated removed
+     */
+
     // On Lenis Scroll
     // this.lenis.on('scroll', () => {
     //   this.loopTl.progress(this.loopTl.progress() + 0.03)
@@ -177,9 +203,13 @@ export default class Fraud extends Snap {
       this.loopTl.to(element, {
         fill: '#EF3529',
         fillOpacity: 1,
+        // ease: 'power3.out',
         duration: this.duration,
         onStart: () => {
           this.incrementCounter(0)
+          /**
+           * Scroll based updated removed and removed nav link dependency here
+           */
           // if (!this.preventBlocking) {
           //   this.lenis.stop()
           //   console.log('Lenis stopped')
@@ -195,17 +225,24 @@ export default class Fraud extends Snap {
     this.loopTl.eventCallback('onComplete', () => {
       this.loopComplete = true
       this.loopEnd()
-      window.removeEventListener('wheel', (e) => {
-        e.preventDefault()
-      })
+      /**
+       * Scroll based updated removed
+       */
+      // window.removeEventListener('wheel', (e) => {
+      //   e.preventDefault()
+      // })
     })
   }
 
-  isSectionAtTop(sectionSelector) {
-    let section = sectionSelector
-    if (!section) return false
+  /**
+   * Scroll based updated removed
+   */
 
-    let rect = section.getBoundingClientRect()
-    return Math.abs(rect.top) < 1 // Checks if top is at or very close to 0
-  }
+  // isSectionAtTop(sectionSelector) {
+  //   let section = sectionSelector
+  //   if (!section) return false
+
+  //   let rect = section.getBoundingClientRect()
+  //   return Math.abs(rect.top) < 1 // Checks if top is at or very close to 0
+  // }
 }

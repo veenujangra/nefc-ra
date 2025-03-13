@@ -12,6 +12,10 @@ export default class Snap {
 
     gsap.registerPlugin(ScrollTrigger)
 
+    /**
+     * Scroll based updated removed
+     */
+
     // this.scrolling = {
     //   enabled: true,
     //   events: 'scroll,wheel,touchmove,pointermove'.split(','),
@@ -46,7 +50,9 @@ export default class Snap {
         if (this.playedOnce) return
         this.intro.bind(this)()
         this.playedOnce = true
-
+        /**
+         * Scroll based updated removed
+         */
         // if (this.preventBlocking) {
         //   this.intro.bind(this)()
         //   return
@@ -54,11 +60,14 @@ export default class Snap {
         // this.goToSection(this.intro.bind(this))
       },
       onEnterBack: () => {
+        /**
+         * Scroll based updated removed
+         */
         // console.log('Enter back')
         // if (this.preventBlocking) {
         //   return
         // }
-        // this.intro.bind(this)()
+        this.intro.bind(this)()
         // this.goToSection(this.intro.bind(this))
       },
       onLeave: () => {
