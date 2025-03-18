@@ -1,4 +1,4 @@
-import Snap from '../Snap'
+import Snap from '../snap'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
 
@@ -81,7 +81,7 @@ export default class Leadership extends Snap {
     // Change modal content
     this.sliderDots = document.querySelectorAll('#sliderNav .w-slider-dot')
 
-    // If mobile, dont scroll to top
+    // If mobile, don't scroll to top
     if (window.innerWidth < 768) {
       this.modal.team.style.display = 'block'
       this.modal.contact.style.display = 'none'
@@ -117,7 +117,7 @@ export default class Leadership extends Snap {
         this.resetActiveState()
         this.setActiveState(card, index)
 
-        this.lenis.resize()
+        this.onResize()
       },
     })
     // this.section.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -144,6 +144,22 @@ export default class Leadership extends Snap {
       element.addEventListener('click', this.modal.modalClose)
       // element.addEventListener('touchstart', this.modal.modalClose)
     })
+
+    // add resize observer on the this.section
+
+    // this.observer = new ResizeObserver(this.onResize.bind(this))
+    // this.observer.observe(this.section)
+
+    // this.section.addEventListener('resize', this.onResize.bind(this))
+  }
+
+  onResize() {
+    this.timeout && clearTimeout(this.timeout)
+    this.lenis.resize()
+    this.timeout = setTimeout(() => {
+      console.log('resize')
+      this.lenis.resize()
+    }, 200)
   }
 
   scrollOnModalOpen() {}

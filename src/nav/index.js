@@ -1,5 +1,3 @@
-import Snap from '../Snap'
-
 export default class Nav {
   constructor(options) {
     // super({
@@ -8,9 +6,35 @@ export default class Nav {
 
     this.lenis = options.lenis
     this.links = document.querySelectorAll('.navlink_wrapper')
+    this.menuButton = document.querySelector('.menu_button')
+
     // this.handleNav = super.handleNav(this.links)
     this.init()
     // this.addEventListeners()
+    this.addMutationObserver()
+  }
+
+  // add mutation observer to this.menuButton for class w--open
+  addMutationObserver() {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          const attributeValue = mutation.target.getAttribute(mutation.attributeName)
+          if (attributeValue.includes('w--open')) {
+            this.lenis.stop()
+            document.body.classList.add('menu-open')
+          } else {
+            this.lenis.start()
+            document.body.classList.remove('menu-open')
+          }
+        }
+      })
+    })
+
+    observer.observe(this.menuButton, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
   }
 
   init() {

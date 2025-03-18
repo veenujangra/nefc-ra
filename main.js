@@ -20,6 +20,8 @@ class App {
      */
     // this.handleNav(document.querySelectorAll('.navlink_wrapper'))
     this.setMobileScrollSpeed()
+
+    this.addEventListeners()
   }
 
   init() {
@@ -36,13 +38,6 @@ class App {
     this.lenis = new Lenis({
       lerp: 0.075,
       autoResize: true,
-    })
-
-    document.body.addEventListener('click', (e) => {
-      this.lenis.resize()
-      setTimeout(() => {
-        this.lenis.resize()
-      }, 200)
     })
 
     // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin and adding direction classes to the body
@@ -122,6 +117,14 @@ class App {
     })
   }
 
+  onResize() {
+    this.timeout && clearTimeout(this.timeout)
+    this.lenis.resize()
+    this.timeout = setTimeout(() => {
+      this.lenis.resize()
+    }, 200)
+  }
+
   /**
    * Scroll based updated removed
    */
@@ -151,6 +154,11 @@ class App {
   //     })
   //   })
   // }
+
+  addEventListeners() {
+    window.addEventListener('resize', this.onResize.bind(this))
+    document.body.addEventListener('click', this.onResize.bind(this))
+  }
 
   setMobileScrollSpeed() {
     if (/Mobi|Android/i.test(navigator.userAgent)) {
